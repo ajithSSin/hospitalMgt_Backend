@@ -84,7 +84,7 @@ io.use((socket, next) => {
   const token = socket.handshake.auth.token;
   if (!token) return next(new Error("Authentication error"));
   try {
-    const decoded = jwt.verify(token, "secretkey");
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
     socket.user = decoded; // contains { id, role, doctorId } if doctor
     next();
   } catch {
@@ -117,7 +117,7 @@ function auth(req, res, next) {
   if (!token) return res.json({ message: "Malformed token" });
 
   try {
-    const decoded = jwt.verify(token, "secretkey");
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
     req.result = decoded;
     next();
   } catch {
@@ -167,7 +167,7 @@ app.post("/login", async (req, res) => {
       userIdToSend = doctor._id; // Use doctor._id instead of user._id
     }
 
-    const token = jwt.sign(payload, "secretkey");
+    const token = jwt.sign(payload, process.env.SECRET_KEY);
 
     res.json({
       token,
@@ -303,6 +303,6 @@ app.get("/my-appointments", auth, checkRole("patient"), async (req, res) => {
 });
 
 // ////////////////// START SERVER //////////////////////
-server.listen(5000, () => {
-  console.log("Server running on port 5000");
+server.listen(process.env.PORT, () => {
+  console.log(`Server running on port ${process.env.PORT}`);
 });
