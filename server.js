@@ -25,8 +25,7 @@ app.use(cors());
 //MongoDB Atlas connection
 const DB_URI=process.env.MONGO_URI
 
-console.log(process.env.MONGO_URI);
-
+// console.log(process.env.MONGO_URI);
 
 mongoose.connect(DB_URI);
 const conn=mongoose.connection;
@@ -42,7 +41,10 @@ conn.on("error",()=>{
 //user login
 const userSchema = new mongoose.Schema({
   name: String,
-  user: String,
+  user: {
+          type:String,
+          unique:true
+  },
   password: String,
   role: String // admin | doctor | patient
 });
@@ -62,7 +64,7 @@ const Doctor = mongoose.model("Doctor", doctorSchema);
 
 const appointmentSchema = new mongoose.Schema({
   patientId: String,
-  doctorId: String,          // references Doctor._id
+  doctorId: String,          // references Doctor._id 
   date: String,
   time: String,
   status: { type: String, default: "Pending" }
