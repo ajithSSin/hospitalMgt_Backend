@@ -77,8 +77,8 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     // origin: "https://6993092245919900d0786144--hospitalmgtfrontend.netlify.app",
-    origin:"https://hospitalmgtfrontend.netlify.app",
-            "http://localhost:5173",
+    origin:["https://hospitalmgtfrontend.netlify.app",
+            "http://localhost:5173"],
     methods: ["GET", "POST"],
     credentials:true
   }
