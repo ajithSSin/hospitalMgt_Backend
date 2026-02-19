@@ -27,14 +27,13 @@ const DB_URI=process.env.MONGO_URI
 
 // console.log(process.env.MONGO_URI);
 
-mongoose.connect(DB_URI);
+await mongoose.connect(DB_URI);
 const conn=mongoose.connection;
 conn.once('open',()=>{
   console.log("Successfully Connected to Database MongoDB ");  
 })
 conn.on("error",()=>{
   console.log("Failed to Connect");
-  
 })
 
 // ////////////////////MODELS ////////////////
